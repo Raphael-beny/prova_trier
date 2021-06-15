@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+
+	<f:metadata>
+		<f:viewParam value="#{veiculoBean.idVeiculo}" name="idVeiculo"/>
+		<f:viewAction action="#{veiculoBean.inicializar}"/>
+	</f:metadata>
+	
+	<ui:define name="titulo">
+		<p:outputLabel value="Prova Trier - Veiculo "/>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form id="formVeiculo">
+			<p:messages id="messageVeiculo" showDetail="true" closable="true"/>
+			<p:panelGrid columns="2">
+				<p:outputLabel for="modelo" value="Modelo: "/>
+				<p:inputText id="modelo"
+							 required="true"
+							 value="#{veiculoBean.veiculo.modelo}"/>
+				
+				<p:outputLabel for="placa" value="Placa: "/>
+				<p:inputMask id="placa"
+							 required="true"
+							 value="#{veiculoBean.veiculo.placa}"/>
+				
+				<p:outputLabel for="dataEntrada" value="Data de entrada: "/>
+				<p:calendar id="dataEntrada" 
+							required="true"
+							value="#{veiculoBean.veiculo.dataEntrada}"
+							pattern="dd/MM/yyyy"
+							mask="true"
+							showOn="button"/>
+				
+				<p:outputLabel for="vaga" value="Vaga: "/>
+				<p:inputText id="vaga"
+							 required="true" 
+							 value="#{veiculoBean.vagaSelecionada}"/>
+			
+				<p:commandButton value="Salvar" 
+								 process="@form"
+								 update="@form"
+								 action="#{veiculoBean.salvar()}"/>
+			</p:panelGrid>
+					
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>
+
+
+</html>

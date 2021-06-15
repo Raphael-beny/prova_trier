@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+	
+	<ui:define name="titulo">
+		<p:outputLabel value="Prova Trier"/>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form>
+			<p:panelGrid columns="2">
+			
+				<p:commandButton value="Cadastrar novo veiculo" 
+								 process="@form"
+								 action="#{listaVeiculoBean.cadastrarVeiculo()}"/>
+			</p:panelGrid>
+			
+			<p:spacer height="1%"/>
+			
+			<p:messages id="messageVeiculo" showDetail="true" closable="true"/>
+			<p:panel id="accordionVeiculo">
+				
+					<p:panelGrid columns="2">
+						<p:outputLabel for="modelo" value="Modelo: "/>
+						<p:inputText id="modelo"
+									 value="#{listaVeiculoBean.filtroDTO.modelo}"/>
+					
+						<p:outputLabel for="placa" value="Placa: "/>
+						<p:inputText id="placa"
+									 value="#{listaVeiculoBean.filtroDTO.placa}"/>
+									 
+						<p:outputLabel for="vaga" value="Vaga ocupada: "/>
+						<p:inputText id="vaga"
+									 value="#{listaVeiculoBean.filtroDTO.codigoVaga}"/>
+									 
+						<p:commandButton value="Filtrar" 
+									 process="@form"
+									 update="@form"
+									 action="#{listaVeiculoBean.consultarVeiculo()}"/>
+					</p:panelGrid>
+				
+					<p:dataTable id="dataTableVeiculo"
+                                 var="veiculo"
+                                 value="#{listaVeiculoBean.listaVeiculo}"
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 paginatorAlwaysVisible="false"
+                                 rows="10"
+                                 editable="true"
+                                 emptyMessage=""
+                                 reflow="true">
+                                   
+						<p:column headerText="Ação" style="text-align: center">
+                        	<p:commandLink style="text-decoration:none" title="Editar veiculo"
+										   action="#{listaVeiculoBean.editarVeiculo(veiculo)}">
+                        		<i style="color: blue" class="fa fa-pencil fa-lg"/>
+                        	</p:commandLink>
+                        	<p:commandLink style="text-decoration:none" title="Excluir veiculo" 
+                        				 immediate="true"
+                        				   action="#{listaVeiculoBean.removerVeiculo(veiculo)}" 
+                        				   update="@form">
+                        		<i style="color: red" class="fa fa-remove fa-lg"/>
+                        	</p:commandLink>
+                        </p:column>
+                        
+                        <p:column headerText="Modelo" >
+                        	<h:outputText value="#{veiculo.modelo}" />
+                        </p:column>
+                        
+                        <p:column headerText="Placa" >
+                        	<h:outputText value="#{veiculo.placa}" />
+                        </p:column>
+                        
+                       <!--  <p:column headerText="Vaga" >
+                        	<h:outputText value="#{veiculo.vaga}" />
+                        	
+                        </p:column> -->
+                        
+                   </p:dataTable>
+                   
+                  
+			</p:panel>
+			
+			<p:spacer height="1%"/>
+			
+			<p:panelGrid columns="2">
+			
+				<p:commandButton value="Cadastrar vagas" 
+								 process="@form"
+								 action="#{listaVagaBean.cadastrarVaga()}"/>
+			</p:panelGrid>
+			
+			<p:spacer height="1%"/>
+			
+			<p:messages id="messageVaga" showDetail="true" closable="true"/>
+			<p:panel id="accordionVagas">
+			
+				<p:panelGrid columns="2">
+						<p:outputLabel value="Vagas Disponiveis: "/>
+				</p:panelGrid>
+				<p:panelGrid columns="2">
+						<p:outputLabel for="codigo" value="Numero: "/>
+						<p:inputText id="codigo"
+									 value="#{listaVagaBean.filtroDTO2.codigo}"/>
+									 
+						<p:commandButton value="Filtrar" 
+									 process="@form"
+									 update="@form"
+									 action="#{listaVagaBean.consultarVaga()}"/>
+					</p:panelGrid>
+				
+					<p:dataTable id="dataTableVaga"
+                                 var="vaga"
+                                 value="#{listaVagaBean.listaVaga}"
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 paginatorAlwaysVisible="false"
+                                 rows="10"
+                                 editable="true"
+                                 emptyMessage=""
+                                 reflow="true">
+                        
+                        <p:column headerText="Numero" >
+                        	<h:outputText value="#{vaga.codigo}" />
+                        </p:column>
+                        <p:column headerText="Ocupada/Livre" >
+                        
+                        <h:outputText value="#{vaga.status}" style="color: green" rendered="#{vaga.status == 'Livre'}"/>
+						<h:outputText value="#{vaga.status}" style="color: red" rendered="#{vaga.status == 'Ocupada'}"/>
+                       
+                       
+                                                       
+                        </p:column>
+                        
+                   </p:dataTable>
+                   
+                  
+			</p:panel>
+			
+			
+			
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>
+
+
+</html>
